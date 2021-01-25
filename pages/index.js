@@ -22,25 +22,16 @@ export default function Home({ launches }) {
         </p>
 
         <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+          {launches.map(launch => {
+            return (
+              <a key={launch.id} href={launch.links.video_link} className={styles.card}>
+                <h3>{ launch.mission_name }</h3>
+                <p><strong>Launch Date: </strong> { new Date(launch.launch_date_local).toLocaleDateString("en-US") } </p>
+              </a>
+            )
+          })}
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
+           <a
             href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
             className={styles.card}
           >
@@ -74,8 +65,9 @@ export async function getStaticProps() {
 
   const { data } = await client.query({
     query: gql`
-      query Getlaunches {
+      query GetLaunches {
   launchesPast(limit: 10) {
+    id
     mission_name
     launch_date_local
     launch_site {
@@ -84,39 +76,22 @@ export async function getStaticProps() {
     links {
       article_link
       video_link
+      mission_patch
     }
     rocket {
       rocket_name
-      first_stage {
-        cores {
-          flight
-          core {
-            reuse_count
-            status
-          }
-        }
-      }
-      second_stage {
-        payloads {
-          payload_type
-          payload_mass_kg
-          payload_mass_lbs
-        }
-      }
-    }
-    ships {
-      name
-      home_port
-      image
     }
   }
 }
     `
-  })
+  });
+  
+  
+  
 
   return {
     props: {
-      launches: []
+      launches: data.launchesPast
     }
   }
 }

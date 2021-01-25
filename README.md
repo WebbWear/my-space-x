@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## SpaceX Launch API
+
+[Fetch GraphQL Data in Next.js with Apollo GraphQL](https://www.freecodecamp.org/news/how-to-fetch-graphql-data-in-next-js-with-apollo-graphql/)
+
 ## Getting Started
 
 First, run the development server:
